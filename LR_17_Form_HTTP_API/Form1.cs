@@ -1,5 +1,6 @@
+using System.Net.Http.Json;
 
-using System.Text.Json;
+record DogApi(string Message, string Status);
 
 namespace LR_17_Form_HTTP_API
 {
@@ -21,7 +22,7 @@ namespace LR_17_Form_HTTP_API
 
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Tick += async (s, args) => await UpdateDogImage();
-            timer.Interval = 60000; //1 хв
+            timer.Interval = 60000; //1 munyta
             timer.Start();
         }
         private async Task UpdateDogImage()
@@ -32,10 +33,8 @@ namespace LR_17_Form_HTTP_API
             {
                 HttpResponseMessage response = await client.GetAsync("https://dog.ceo/api/breeds/image/random");
                 response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonDocument = JsonDocument.Parse(responseBody);
-                var messageElement = jsonDocument.RootElement.GetProperty("message");
-                string message = messageElement.GetString();
+                DogApi dogApiResponse = await response.Content.ReadFromJsonAsync<DogApi>();
+                string message = dogApiResponse.Message;
                 ImageDogi.ImageLocation = message;
 
             }
