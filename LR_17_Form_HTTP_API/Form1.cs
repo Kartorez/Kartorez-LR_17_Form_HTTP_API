@@ -13,7 +13,7 @@ namespace LR_17_Form_HTTP_API
 
         private async void ImageDogi_Click(object sender, EventArgs e)
         {
-            await UpdateDogImage();
+            await UpdateDogImage(); 
         }
 
         private async void Form1_Load(object sender, EventArgs e)
